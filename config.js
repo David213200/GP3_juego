@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
-import GameScene from './GameScene';
+import GameScene from './scenes/GameScene';
+import initialScene from './scenes/index';
 
 
 const speedDown = 0

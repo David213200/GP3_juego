@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
-import Bullet from './Bullet';
-import { game } from './main';
+import Bullet from '../Bullet';
+import { game } from '../main';
 
 
 class GameScene extends Phaser.Scene {
@@ -24,6 +24,7 @@ class GameScene extends Phaser.Scene {
     preload() {
       // Load in images and sprites
       this.load.spritesheet('player_handgun','/public/assets/principal_character/personaje2.png', { frameWidth: 313, frameHeight: 207 });  
+      this.load.spritesheet('enemy_pistol', '/public/assets/bots/jujui.png', { frameWidth: 344, frameHeight: 470 })
       // Load bullet img
       this.load.image('bullet', '/public/assets/complements/fired.jpg');
       //Load the scope
@@ -47,7 +48,7 @@ class GameScene extends Phaser.Scene {
       // Add background, player, and reticle sprites
       const background = this.add.image(800, 600, 'background');
       this.player = this.physics.add.sprite(800, 600, 'player_handgun');
-      this.enemy = this.physics.add.sprite(300, 600, 'player_handgun');
+      this.enemy = this.physics.add.sprite(300, 600, 'enemy_pistol');
       this.reticle = this.physics.add.sprite(800, 700, 'target');
       this.hp1 = this.add.image(-350, -250, 'target').setScrollFactor(0.5, 0.5);
       this.hp2 = this.add.image(-300, -250, 'target').setScrollFactor(0.5, 0.5);
