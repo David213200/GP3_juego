@@ -3,7 +3,7 @@ import Bullet from '../Bullet';
 import { game } from '../main';
 
 
-class GameScene extends Phaser.Scene {
+export default class GameScene extends Phaser.Scene {
 
     time = 0;
     enemyBullets;
@@ -18,7 +18,8 @@ class GameScene extends Phaser.Scene {
     hp3;
   
     constructor() {
-      super("scene-game")
+      super("GameScene")
+      this.playerHealth = 120; // Life
     }
   
     preload() {
@@ -30,7 +31,7 @@ class GameScene extends Phaser.Scene {
       //Load the scope
       this.load.image('target', '/public/assets/crosshair/ui_pixels_v2-09_copy-512.png');
       //Load BG
-      this.load.image('background', '/public/assets/map&bg/solido.jpg');
+      this.load.image('gamebackground', '/public/assets/map&bg/solido.jpg');
       //Boton de pantalla principal
       this.load.image('buttonBG', '/public/assets/botones/play_btn.png');
   
@@ -46,7 +47,7 @@ class GameScene extends Phaser.Scene {
       this.enemyBullets = this.physics.add.group({ classType: Bullet, runChildUpdate: true });
   
       // Add background, player, and reticle sprites
-      const background = this.add.image(800, 600, 'background');
+      const gamebackground = this.add.image(800, 600, 'gamebackground');
       this.player = this.physics.add.sprite(800, 600, 'player_handgun');
       this.enemy = this.physics.add.sprite(300, 600, 'enemy_pistol');
       this.reticle = this.physics.add.sprite(800, 700, 'target');
@@ -55,7 +56,7 @@ class GameScene extends Phaser.Scene {
       this.hp3 = this.add.image(-250, -250, 'target').setScrollFactor(0.5, 0.5);
   
       // Set image/sprite properties
-      background.setOrigin(0.5, 0.5).setDisplaySize(1600, 1200);
+      gamebackground.setOrigin(0.5, 0.5).setDisplaySize(1600, 1200);
       this.player.setOrigin(0.5, 0.5).setDisplaySize(132, 120).setCollideWorldBounds(true).setDrag(500, 500);
       this.enemy.setOrigin(0.5, 0.5).setDisplaySize(132, 120).setCollideWorldBounds(true);
       this.reticle.setOrigin(0.5, 0.5).setDisplaySize(25, 25).setCollideWorldBounds(true);
@@ -183,34 +184,35 @@ class GameScene extends Phaser.Scene {
       }
   }
   
-  playerHitCallback (playerHit, bulletHit)
-  {
-      // Reduce health of player
-      if (bulletHit.active === true && playerHit.active === true)
-      {
-          playerHit.health = playerHit.health - 1;
-          console.log('Player hp: ', playerHit.health);
-  
-          // Kill hp sprites and kill player if health <= 0
-          if (playerHit.health === 2)
-          {
-              this.hp3.destroy();
-          }
-          else if (playerHit.health === 1)
-          {
-              this.hp2.destroy();
-          }
-          else
-          {
-              this.hp1.destroy();
-  
-              // Game over state should execute here
-          }
-  
-          // Destroy bullet
-          bulletHit.setActive(false).setVisible(false);
-      }
-  }
+  playerHitCallback(playerHit, bulletHit) {
+    // Reducir la vida del jugador solo si está por encima de cero
+    if (bulletHit.active === true && playerHit.active === true && this.playerHealth > 0) {
+        // Reducir la vida del jugador en 20
+        this.playerHealth -= 20;
+
+        // Asegurarse de que la vida del jugador no sea negativa
+        if (this.playerHealth < 0) {
+            this.playerHealth = 0;
+        }
+
+        // Mostrar la vida restante del jugador
+        console.log('¡El jugador ha sido golpeado! Vida restante:', this.playerHealth);
+
+        // Actualizar los sprites de corazón según la vida restante
+        // Implementa esto si deseas mostrar los corazones en el juego
+
+        // Verificar si la vida del jugador es cero para la transición a la escena de Game Over
+        if (this.playerHealth === 0) {
+            this.scene.start('GameOverScene');
+        }
+
+        // Destruir la bala
+        bulletHit.setActive(false).setVisible(false);
+    }
+}
+
+
+
   
   enemyFire (time)
   {
@@ -274,4 +276,4 @@ class GameScene extends Phaser.Scene {
   }
   }
 
-  export default GameScene;
+

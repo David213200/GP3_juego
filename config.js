@@ -1,14 +1,15 @@
 import Phaser from 'phaser';
 import GameScene from './scenes/GameScene';
 import initialScene from './scenes/index';
+import GameOverScene from './scenes/GameOverScene';
 
 
 const speedDown = 0
 
 const config = {
     type: Phaser.WEBGL,
-    width: "98%",
-    height: "98%",
+    width: 1500,
+    height: 700,
     canvas: gameCanvas,
     physics: {
       default: "arcade",
@@ -17,7 +18,7 @@ const config = {
         debug: false
       }
     },
-    scene: [GameScene]
+    scene: [initialScene, GameScene, GameOverScene]
   }
 
 export default config;
