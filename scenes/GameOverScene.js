@@ -6,7 +6,7 @@ export default class GameOverScene extends Phaser.Scene {
     }
 
     create() {        
-        const text = this.add.text(750, 350, 'GAME OVER!', { fontFamily: 'Arial', fontSize: '20px', color: '#000' }).setOrigin(0.5);
+        const text = this.add.text(750, 350, 'GAME OVER!', { fontFamily: 'Ewert', fontSize: '20px', color: '#000' }).setOrigin(0.5);
 
         this.tweens.addCounter({
             from: 0,

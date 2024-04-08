@@ -12,11 +12,7 @@ export default class Bullet extends Phaser.GameObjects.Image{
         this.setSize(12, 12, true);
     }
 
-fire (shooter, target)
-{
-    // Verificar coordenadas del objetivo
-    console.log('Target coordinates:', target.x, target.y);
-
+fire (shooter, target){
     this.setPosition(shooter.x, shooter.y); // Posición inicial
     this.direction = Math.atan2(target.y - shooter.y, target.x - shooter.x);
 
@@ -27,9 +23,6 @@ fire (shooter, target)
     this.rotation = this.direction; // Ángulo de la bala con la dirección
     this.born = 0; // Tiempo desde que se creó la nueva bala
 
-    console.log('Direction:', this.direction);
-    console.log('xSpeed:', this.xSpeed);
-    console.log('ySpeed:', this.ySpeed);
 }
 
 
